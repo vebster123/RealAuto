@@ -6,7 +6,8 @@ CREATE TABLE real_auto.car (
   model   TEXT NOT NULL
 );
 
-ALTER TABLE real_auto.car MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE real_auto.car
+MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE real_auto.type_part (
   id   SERIAL PRIMARY KEY,
@@ -14,7 +15,8 @@ CREATE TABLE real_auto.type_part (
   part TEXT NOT NULL
 );
 
-ALTER TABLE real_auto.type_part MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE real_auto.type_part
+MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE real_auto.part_advert (
   id           SERIAL PRIMARY KEY,
@@ -24,7 +26,8 @@ CREATE TABLE real_auto.part_advert (
   type_part_id BIGINT  NOT NULL
 );
 
-ALTER TABLE real_auto.part_advert MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE real_auto.part_advert
+MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
 
 CREATE INDEX idx_partadvert__car_id ON real_auto.part_advert (car_id);
 
@@ -38,14 +41,15 @@ ALTER TABLE real_auto.part_advert
 
 CREATE TABLE real_auto.user (
   id       SERIAL PRIMARY KEY,
-  login    TEXT    NOT NULL,
-  password TEXT    NOT NULL,
-  phone    INTEGER NOT NULL,
-  name     TEXT    NOT NULL,
-  surname  TEXT    NOT NULL
+  login    TEXT NOT NULL,
+  password TEXT NOT NULL,
+  phone    INTEGER,
+  name     TEXT,
+  surname  TEXT
 );
 
-ALTER TABLE real_auto.user MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE real_auto.user
+MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE real_auto.car_advert (
   id      SERIAL PRIMARY KEY,
@@ -55,7 +59,8 @@ CREATE TABLE real_auto.car_advert (
   cost    INTEGER NOT NULL
 );
 
-ALTER TABLE real_auto.car_advert MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE real_auto.car_advert
+MODIFY id BIGINT (20) NOT NULL AUTO_INCREMENT;
 
 CREATE INDEX idx_caradvert__car_id ON real_auto.car_advert (car_id);
 
