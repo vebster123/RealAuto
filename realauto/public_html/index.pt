@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Сайт Real Auto</title>
+</head>
+<body>
+<form method="post" action="${url}">
+    <h1>Вход на сайт</h1>
+    <div>
+        Логин - <input id="username" type="text" value="${login}" name="login">
+    </div>
+    <div>
+        Пароль - <input id="password" type="password" value="${password}" name="password">
+    </div>
+    <div>
+        <input value="Войти" type="submit" name="form.submitted">
+        <a href="#">Напомнить пароль?</a>
+        <a href="#">Регистрация</a>
+    </div>
+</form>
+</body>
+</html>
