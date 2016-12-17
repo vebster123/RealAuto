@@ -5,7 +5,8 @@
     <title>Сайт Real Auto</title>
 </head>
 <body>
-<form method="post" action="${url}">
+<span tal:replace="message"></span>
+<form method="post" action="${url}" tal:condition="log_in == False">
     <h1>Вход на сайт</h1>
     <div>
         Логин - <input id="username" type="text" value="${login}" name="login">
