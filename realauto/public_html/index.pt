@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Сайт Real Auto</title>
+    <title>Главная - Real Auto</title>
 </head>
 <body>
 <span tal:replace="message"></span>
@@ -16,9 +16,10 @@
     </div>
     <div>
         <input value="Войти" type="submit" name="form.submitted">
-        <a href="#">Напомнить пароль?</a>
-        <a href="#">Регистрация</a>
+        <a href="reg">Регистрация</a>
     </div>
 </form>
+<br>
+<a tal:condition="log_in == True" href="logout">Выйти</a>
 </body>
 </html>

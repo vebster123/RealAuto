@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация - Real Auto</title>
+</head>
+<body>
+<span tal:replace="message"></span>
+<form method="post" action="${url}" tal:condition="log_in == False">
+    <h1>Вход на сайт</h1>
+    <div>
+        Логин(*) - <input id="username" type="text" value="${login}" name="login">
+    </div>
+    <div>
+        Пароль(*) - <input id="password" type="password" value="${password}" name="password">
+    </div>
+    <div>
+        Подтвердите Пароль(*) - <input id="password_conf" type="password" value="${password_conf}" name="password_conf">
+    </div>
+    <div>
+        Номер телефона - <input id="phone" type="text" value="${phone}" name="phone">
+    </div>
+    <div>
+        Имя - <input id="first_name" type="text" value="${first_name}" name="first_name">
+    </div>
+    <div>
+        Фамилия - <input id="surname" type="text" value="${surname}" name="surname">
+    </div>
+    <div>
+        <input value="Зарегистрироваться" type="submit" name="form.submitted">
+        <a href="/">Вход</a>
+    </div>
+</form>
+<a tal:condition="log_in == True" href="/">На главную</a>
+</body>
+</html>
