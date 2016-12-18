@@ -43,6 +43,21 @@
                         Производитель: ${car_advert.concern}
                     </td>
                 </tr>
+                <tr tal:condition="log_in == True">
+                    <td><input id="advert_text" type="text" value="${advert_text}" name="advert_text"></td>
+                    <td><input id="cost" type="number" value="${cost}" name="cost"></td>
+                    <td>${login}</td>
+                    <td>
+                        <select tal:repeat="car cars">
+                            <option>${car.model} ${car.concern}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr tal:condition="log_in == True">
+                    <td>
+                        <a href="add_car_advert">Добавить</a>
+                    </td>
+                </tr>
             </table>
         </td>
         <td>

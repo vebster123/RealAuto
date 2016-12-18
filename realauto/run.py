@@ -27,17 +27,22 @@ class RealAuto:
                 .join(User, User.id == CarAdvert.user_id) \
                 .join(Car, Car.id == CarAdvert.car_id) \
                 .all()
+        self.cars = \
+            self.session. \
+                query(Car.model, Car.concern) \
+                .all()
 
     @view_config(route_name='Index', renderer='public_html/index.pt')
     def index_page(self):
         if self.request.cookies.get('login') is not None:
             log_in = True
             message = 'Здравствуйте, ' + self.request.cookies['login']
+            login = self.request.cookies['login']
         else:
             log_in = False
             message = ''
+            login = ''
         request = self.request
-        login = ''
         password = ''
         if 'form.submitted' in request.params:
             login = request.params['login']
@@ -56,7 +61,10 @@ class RealAuto:
             login=login,
             password=password,
             log_in=log_in,
-            car_adverts=self.car_adverts
+            car_adverts=self.car_adverts,
+            advert_text='',
+            cost='',
+            cars=self.cars
         )
 
     @view_config(route_name='Reg', renderer='public_html/reg.pt')
