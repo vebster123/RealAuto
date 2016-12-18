@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Главная - Real Auto</title>
+</head>
+<body>
+<span tal:replace="message"></span>
+<form method="post" action="${url}" tal:condition="log_in == False">
+    <h1>Вход на сайт</h1>
+    <div>
+        Логин - <input id="username" type="text" value="${login}" name="login">
+    </div>
+    <div>
+        Пароль - <input id="password" type="password" value="${password}" name="password">
+    </div>
+    <div>
+        <input value="Войти" type="submit" name="form.submitted">
+        <a href="reg">Регистрация</a>
+    </div>
+</form>
+<br>
+<a tal:condition="log_in == True" href="logout">Выйти</a>
+<br>
+<table border="1">
+    <tr>
+        <td>
+            <h1>Объявления о продаже авто</h1>
+            <table border="2">
+                <tr>
+                    <td>Текст объявления</td>
+                    <td>Стоимость</td>
+                    <td>Пользователь</td>
+                    <td>Машина</td>
+                </tr>
+                <tr tal:repeat="car_advert car_adverts">
+                    <td>${car_advert.text}</td>
+                    <td>${car_advert.cost}</td>
+                    <td>${car_advert.login}</td>
+                    <td>
+                        Модель: ${car_advert.model}
+                        <br>
+                        Производитель: ${car_advert.concern}
+                    </td>
+                </tr>
+                <tr tal:condition="log_in == True">
+                    <td><input id="advert_text" type="text" value="${advert_text}" name="advert_text"></td>
+                    <td><input id="cost" type="number" value="${cost}" name="cost"></td>
+                    <td>${login}</td>
+                    <td>
+                        <select tal:repeat="car cars">
+                            <option>${car.model} ${car.concern}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr tal:condition="log_in == True">
+                    <td>
+                        <a href="add_car_advert">Добавить</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <h1>Объявления о продаже запчастей</h1>
+            <table border="2">
+                <tr>
+                    <td>Текст объявления</td>
+                    <td></td>
+                </tr>
+                <tr tal:repeat="car_advert car_adverts">
+                    <td>Тут пока пусто</td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
