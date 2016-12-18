@@ -21,5 +21,44 @@
 </form>
 <br>
 <a tal:condition="log_in == True" href="logout">Выйти</a>
+<br>
+<table border="1">
+    <tr>
+        <td>
+            <h1>Объявления о продаже авто</h1>
+            <table border="2">
+                <tr>
+                    <td>Текст объявления</td>
+                    <td>Стоимость</td>
+                    <td>Пользователь</td>
+                    <td>Машина</td>
+                </tr>
+                <tr tal:repeat="car_advert car_adverts">
+                    <td>${car_advert.text}</td>
+                    <td>${car_advert.cost}</td>
+                    <td>${car_advert.login}</td>
+                    <td>
+                        Модель: ${car_advert.model}
+                        <br>
+                        Производитель: ${car_advert.concern}
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <h1>Объявления о продаже запчастей</h1>
+            <table border="2">
+                <tr>
+                    <td>Текст объявления</td>
+                    <td></td>
+                </tr>
+                <tr tal:repeat="car_advert car_adverts">
+                    <td>Тут пока пусто</td>
+                    <td></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

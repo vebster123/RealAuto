@@ -1,13 +1,14 @@
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember
 from pyramid.view import view_config, view_defaults
 from jinja2 import FileSystemLoader, Environment
 from sqlalchemy import create_engine, null
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, relationship, aliased
+from sqlalchemy.orm import Session
 
+from car import Car
+from car_advert import CarAdvert
 from models.user import User
 
 env = Environment(loader=FileSystemLoader('public_html/'))
@@ -18,6 +19,14 @@ class RealAuto:
     def __init__(self, request):
         self.request = request
         self.engine = create_engine('mysql+pymysql://root:@fix213p.dsmynas.com/real_auto?charset=utf8')
+        self.session = Session(bind=self.engine)
+        self.base = declarative_base(bind=self.engine)
+        self.car_adverts = \
+            self.session. \
+                query(CarAdvert.text, CarAdvert.cost, User.login, Car.model, Car.concern) \
+                .join(User, User.id == CarAdvert.user_id) \
+                .join(Car, Car.id == CarAdvert.car_id) \
+                .all()
 
     @view_config(route_name='Index', renderer='public_html/index.pt')
     def index_page(self):
@@ -33,10 +42,8 @@ class RealAuto:
         if 'form.submitted' in request.params:
             login = request.params['login']
             password = request.params['password']
-            session = Session(bind=self.engine)
-            base = declarative_base(bind=self.engine)
-            if len(session.query(User.login, User.password).filter(User.login == login,
-                                                                   User.password == password).all()) == 1:
+            if len(self.session.query(User.login, User.password).filter(User.login == login,
+                                                                        User.password == password).all()) == 1:
                 log_in = True
                 message = 'Здравствуйте, ' + login
                 self.request.response.set_cookie(name='login', value=login)
@@ -48,7 +55,8 @@ class RealAuto:
             url=request.application_url + '/',
             login=login,
             password=password,
-            log_in=log_in
+            log_in=log_in,
+            car_adverts=self.car_adverts
         )
 
     @view_config(route_name='Reg', renderer='public_html/reg.pt')
@@ -73,16 +81,14 @@ class RealAuto:
             phone = request.params['phone']
             first_name = request.params['first_name']
             surname = request.params['surname']
-            session = Session(bind=self.engine)
-            base = declarative_base(bind=self.engine)
-            if len(session.query(User.login).filter(
+            if len(self.session.query(User.login).filter(
                             User.login == login).all()) == 0 and password == password_conf and len(
                 password) != 0 and len(login) != 0:
                 log_in = True
                 message = 'Здравствуйте, ' + login
                 self.request.response.set_cookie(name='login', value=login, path='/', domain=None)
-                session.add(User(login=login, password=password, phone=phone, name=first_name, surname=surname))
-                session.commit()
+                self.session.add(User(login=login, password=password, phone=phone, name=first_name, surname=surname))
+                self.session.commit()
             else:
                 message = 'Логин не должен быть пустым и должен быть уникальным,' \
                           ' пароль не должен быть пустым и должен совпадать с подтверждением пароля.'
@@ -105,6 +111,7 @@ class RealAuto:
         self.request.response = HTTPFound(location=url)
         self.request.response.delete_cookie(name='login', path='/', domain=None)
         return self.request.response
+
 
 if __name__ == '__main__':
     config = Configurator()
